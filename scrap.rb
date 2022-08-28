@@ -37,4 +37,18 @@ class Simple
     Scrap.new(1)
   end
 end
+
+class Family
+  extend T::Sig
+
+  class Oya; end
+  class Ko < Oya; end
+  class Mago < Ko; end
+
+  sig {params(x: Ko).void}
+  def self.foo(x); end
+
+  # foo(Oya.new)
+  foo(Ko.new)
+  foo(Mago.new)
 end
