@@ -1,0 +1,20 @@
+
+name: "TypeCheck"
+on:
+  - push
+jobs:
+  sorbet-typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Detect ruby version
+        id: ruby-version
+        run: echo "::set-output name=VERSION::$(cat .ruby-version)"
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '${{ steps.ruby-version.outputs.VERSION }}'
+          bundler-cache: true
+      - name: Run sorbet typecheck
+        run: bundle exec srb tc
